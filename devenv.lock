@@ -1,12 +1,29 @@
 {
   "nodes": {
+    "atrolib": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1747512196,
+        "owner": "atropos112",
+        "repo": "atronixlib",
+        "rev": "87a9a699faf48a30f9a290d05387dfdd12126e30",
+        "type": "github"
+      },
+      "original": {
+        "owner": "atropos112",
+        "repo": "atronixlib",
+        "type": "github"
+      }
+    },
     "devenv": {
       "locked": {
         "dir": "src/modules",
-        "lastModified": 1744902663,
+        "lastModified": 1747482870,
         "owner": "cachix",
         "repo": "devenv",
-        "rev": "379980fb42ca804f7c3220d978d9da86360a68fa",
+        "rev": "7ea7b397c958ffa14c6a26e73d88620bc6e3d83d",
         "type": "github"
       },
       "original": {
@@ -19,10 +36,10 @@
     "flake-compat": {
       "flake": false,
       "locked": {
-        "lastModified": 1733328505,
+        "lastModified": 1747046372,
         "owner": "edolstra",
         "repo": "flake-compat",
-        "rev": "ff81ac966bb2cae68946d5ed5fc4994f96d0ffec",
+        "rev": "9100a0f413b0c601e0533d1d94ffd501ce2e7885",
         "type": "github"
       },
       "original": {
@@ -40,10 +57,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1742649964,
+        "lastModified": 1747372754,
         "owner": "cachix",
         "repo": "git-hooks.nix",
-        "rev": "dcf5072734cb576d2b0c59b2ac44f5050b5eac82",
+        "rev": "80479b6ec16fefd9c1db3ea13aeb038c60530f46",
         "type": "github"
       },
       "original": {
@@ -74,10 +91,23 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1744932701,
+        "lastModified": 1746904237,
+        "narHash": "sha256-3e+AVBczosP5dCLQmMoMEogM57gmZ2qrVSrmq9aResQ=",
+        "path": "/nix/store/ccfwxygjrarahgfv5865x2f828sjr5h0-source",
+        "rev": "d89fc19e405cb2d55ce7cc114356846a0ee5e956",
+        "type": "path"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1747327360,
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "b024ced1aac25639f8ca8fdfc2f8c4fbd66c48ef",
+        "rev": "e06158e58f3adee28b139e9c2bcfcc41f8625b46",
         "type": "github"
       },
       "original": {
@@ -89,9 +119,10 @@
     },
     "root": {
       "inputs": {
+        "atrolib": "atrolib",
         "devenv": "devenv",
         "git-hooks": "git-hooks",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": "nixpkgs_2",
         "pre-commit-hooks": [
           "git-hooks"
         ]

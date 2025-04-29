@@ -3,5 +3,6 @@
 inputs:
   nixpkgs:
     url: github:NixOS/nixpkgs/nixos-unstable
-
+  atrolib:
+    url: github:atropos112/atronixlib
 allowUnfree: true

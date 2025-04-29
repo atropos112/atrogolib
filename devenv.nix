@@ -1,24 +1,11 @@
 {
   pkgs,
-  lib,
   config,
+  inputs,
   ...
 }: let
-  # writeShellScript here is identity to cause treesitter to format bash scripts correctly.
-  writeShellScript = name: script: script;
-  helpScript = writeShellScript "help" ''
-    echo
-    echo 🦾 Useful project scripts:
-    echo 🦾
-    ${pkgs.gnused}/bin/sed -e 's| |••|g' -e 's|=| |' <<EOF | ${pkgs.util-linuxMinimal}/bin/column -t | ${pkgs.gnused}/bin/sed -e 's|^|🦾 |' -e 's|••| |g'
-    ${lib.generators.toKeyValue {} (lib.mapAttrs (_: value: value.description) config.scripts)}
-    EOF
-    echo
-  '';
-
-  testScript = writeShellScript "test" ''
-    ${pkgs.gotestsum}/bin/gotestsum --  ./... -race -coverprofile=coverage.out -covermode=atomic
-  '';
+  inherit (inputs.atrolib.lib) listScripts goTest writeShellScript;
+  inherit (inputs.atrolib.lib.devenv.scripts) help; # runDocs buildDocs;
 in {
   env = {
     GOFLAGS = "-tags=assert";
@@ -43,7 +30,8 @@ in {
     gotestsum
   ];
 
-  pre-commit.hooks = {
+  git-hooks.hooks = {
+    inherit (inputs.atrolib.lib.devenv.git-hooks.hooks) gitleaks markdownlint;
     editorconfig-checker.enable = true;
     gen-doc-refs = {
       enable = true;
@@ -60,33 +48,25 @@ in {
     revive.enable = true;
   };
 
-  enterTest = testScript;
+  enterTest = goTest;
 
   scripts = {
     run-tests = {
-      exec = testScript;
+      exec = goTest;
       description = "Run tests";
     };
-    run-docs = {
-      exec = writeShellScript "run-docs" ''
-        mkdocs serve
-      '';
-      description = "Run the documentation server";
-    };
+    help = help config.scripts;
+    # INFO: No docs yet.
+    # run-docs = runDocs ".";
+    # build-docs = buildDocs ".";
+
     gen-doc-refs = {
       # TODO: Do we need this ?
-      # TODO: Can use similar definition for writeShellScript as in atrk
-      # to deal with DIR matters.
       exec = writeShellScript "gen-doc-refs" ''
-        CURRENT_DIR=$PWD
-        cd $CURRENT_DIR/utils && gomarkdoc --output ../docs/Utils.md
-        cd $CURRENT_DIR
+        cd utils
+        gomarkdoc --output ../docs/Utils.md
       '';
       description = "Generate the documentation references";
-    };
-    help = {
-      exec = helpScript;
-      description = "Show this help message";
     };
   };
   languages.go = {
@@ -95,5 +75,5 @@ in {
     package = pkgs.go;
   };
 
-  enterShell = helpScript;
+  enterShell = listScripts config.scripts;
 }
