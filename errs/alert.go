@@ -68,7 +68,7 @@ func AlertWrapError(publisher pubsub.Publisher, err error) error {
 	event, er := types.MakeSimpleEvent(
 		source,
 		"error",
-		"",
+		"go_app_error",
 		map[string]any{
 			"error_message": err.Error(),
 			"error_type":    fmt.Sprintf("%T", err),
